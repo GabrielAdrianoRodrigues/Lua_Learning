@@ -19,17 +19,28 @@ function manual()
 end
 
 function geraNumero()
-    return math.random(1, 3)
+    local seed = os.clock()*1000000000000
+    math.randomseed(seed)
+    return math.random(1, 100)
 end
 
 function capturaPalpite()
     while true do
+        print("Digíte seu palpite")
         local palpite = io.read()
         if type(tonumber(palpite)) == "number" then
             palpite = tonumber(palpite)
-            if palpite <= 100 and palpite >= 1 then
+
+            if palpite > 100  then
+                print("informe um numero menor que 100")
+            elseif palpite < 1 then
+                print("informe um numero maior que 0")
+            end
+
+            if (palpite <= 100 and palpite >= 1) then
                 return palpite
             end
+
         else
             print("Informe um número válido!")
         end
@@ -40,6 +51,11 @@ function compara(numero, palpite)
     if numero == palpite then
         return true
     else 
+        if palpite > numero then
+            print("O numero informado e maior que eu estou pensando")
+        else 
+            print("O numero informado e menor que eu estou pensando")
+        end
         return false    
     end
 end   
@@ -48,7 +64,7 @@ function interacao(numero, resultado)
     if resultado then
         print("Parabéns voce acertou o número no "..numero)
     else    
-        print("Não era este o número\nTente novamente\nDigíte seu palpite")
+        print("Tente novamente\n")
     end
 
     return not resultado
